@@ -24,6 +24,18 @@ class StockInfo:
             # return string with "empty" value separated by same amount of ',' (32) if TimeOut
             return ',' * 32
     
+    def getCompanyName(self):
+        if (debug): print self.read().decode(CODEC)
+        return self.read().decode(CODEC).split(',')[0].split('"')[-1]
+    
+    def getPriceYesterdayClose(self):
+        if (debug): print self.read().decode(CODEC)
+        return self.read().decode(CODEC).split(',')[1]
+    
+    def getPrice(self):
+        if (debug): print self.read().decode(CODEC)
+        return self.read().decode(CODEC).split(',')[3]
+    
     def parseResults(self):
         if (debug): print self.read().decode(CODEC)
         res = self.read().decode(CODEC).split(',')
