@@ -17,12 +17,16 @@ class StockInfo:
         Return empty string if TimeOut
         '''
         url = 'http://hq.sinajs.cn/list=' + self.symbol
-        try:
-            return urllib2.urlopen(url, timeout=10).read()
-        except Exception,e:
-            if (debug): print e
-            # return string with "empty" value separated by same amount of ',' (32) if TimeOut
-            return ',' * 32
+        res = ''
+        
+        while (res == ''):
+            try:
+                res = urllib2.urlopen(url, timeout=10).read()
+            except Exception,e:
+                if (debug): print e
+                res = ''
+        
+        return res
     
     def getCompanyName(self):
         if (debug): print self.read().decode(CODEC)
