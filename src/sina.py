@@ -29,7 +29,7 @@ class StockInfo:
         
         if resstr != '':
             res = resstr.split(',')
-            company_name = res[0][-4:]
+            company_name = res[0].split('"')[-1]
             price_yesterday_close = res[1]
             price_today_open = res[2]
             price = res[3]
@@ -43,7 +43,7 @@ UnitTest
 
 if __name__ == '__main__':
     
-    stocks = ['sh600030', 'sh600547', 'sh600151', 'sz000593']
+    stocks = ['sh600030', 'sh600547', 'sh600151', 'sz000593', 'sz002029']
     
     for s in stocks:
         stinfo = StockInfo(s)
