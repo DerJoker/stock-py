@@ -3,7 +3,7 @@ import urllib2
 CODEC = 'gb2312'
 
 debug = True
-# debug = False
+debug = False
 
 class StockInfo:
     
@@ -33,12 +33,18 @@ class StockInfo:
         return self.read().decode(CODEC).split(',')[0].split('"')[-1]
     
     def getPriceYesterdayClose(self):
+        '''
+        -> float
+        '''
         if (debug): print self.read().decode(CODEC)
-        return self.read().decode(CODEC).split(',')[1]
+        return float(self.read().decode(CODEC).split(',')[1])
     
     def getPrice(self):
+        '''
+        -> float
+        '''
         if (debug): print self.read().decode(CODEC)
-        return self.read().decode(CODEC).split(',')[3]
+        return float(self.read().decode(CODEC).split(',')[3])
     
     def parseResults(self):
         if (debug): print self.read().decode(CODEC)
