@@ -10,21 +10,32 @@ debug = False
 stocks = []
 with open(config._path_stocks_txt) as f_stocks_txt:
     for line in f_stocks_txt.readlines():
-        stocks.append(eval(line.split('#')[0]))
-print stocks
+        symbol, ownership = eval(line.split('#')[0])
+        stocks.append(Stock(symbol, ownership))
 
 def notification():
 
-    for (symbol, ownership) in stocks:
-        stock = Stock(symbol, ownership)
-        print stock.calculate()
-        print 'system time:', time.time()
+    for stock in stocks:
+        
+        c1 = stock.calculate()
+        
+        delta = 60
+        eventdelta = threading.Event()
+        # check every 60s
+        eventdelta.wait(timeout=delta)
+        
+        c2 = stock.calculate()
+        
+        allowance = 0.01
+        # c1 > c2: decrease
+        if c1 - c2 > allowance and stock.ownership:
+            print time.time(), 'sell', stock.getCompanyName()
+        # c1 < c2: increase
+        if c2 - c1 > allowance and not stock.ownership:
+            print time.time(), 'buy', stock.getCompanyName()
 
 # timer = threading.Timer(30, notification)
 # timer.start()
 
 while True:
     notification()
-    event = threading.Event()
-    # check every 60s
-    event.wait(timeout=6)
