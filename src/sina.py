@@ -1,14 +1,16 @@
-import urllib2
+import urllib2, time
 
 CODEC = 'gb2312'
 
 debug = True
-debug = False
+# debug = False
 
 class StockInfo:
     
     def __init__(self, symbol):
         self.symbol = symbol
+        self.infolist = self.read().decode(CODEC).split(',')
+        if (debug): print 'StockInfo: __init__', self.infolist
     
     def read(self):
         '''
@@ -29,8 +31,10 @@ class StockInfo:
         return res
     
     def getCompanyName(self):
-        if (debug): print self.read().decode(CODEC)
-        return self.read().decode(CODEC).split(',')[0].split('"')[-1]
+        '''
+        -> str
+        '''
+        return self.infolist[0].split('"')[-1]
     
     def getPriceYesterdayClose(self):
         '''
@@ -38,31 +42,32 @@ class StockInfo:
         
         price_yesterday_close can be 0 (because of suspending)
         '''
-        if (debug): print self.read().decode(CODEC)
-        return float(self.read().decode(CODEC).split(',')[1])
+        return float(self.infolist[1])
     
     def getPriceTodayOpen(self):
         '''
         -> float
         '''
-        if (debug): print self.read().decode(CODEC)
-        return float(self.read().decode(CODEC).split(',')[2])
+        return float(self.infolist[2])
     
     def getPrice(self):
         '''
         -> float
         '''
-        if (debug): print self.read().decode(CODEC)
-        return float(self.read().decode(CODEC).split(',')[3])
+        return float(self.infolist[3])
+    
+    def getTime(self):
+        '''
+        -> time
+        '''
+#         return self.infolist[30] + ' ' + self.infolist[31]
+        return time.mktime(time.strptime(self.infolist[30] + ' ' + self.infolist[31], '%Y-%m-%d %H:%M:%S'))
     
     def parseResults(self):
-        if (debug): print self.read().decode(CODEC)
-        res = self.read().decode(CODEC).split(',')
-        
-        company_name = res[0].split('"')[-1]
-        price_yesterday_close = res[1]
-        price_today_open = res[2]
-        price = res[3]
+        company_name = self.infolist[0].split('"')[-1]
+        price_yesterday_close = self.infolist[1]
+        price_today_open = self.infolist[2]
+        price = self.infolist[3]
         return (company_name, self.symbol, price)
 
 
@@ -76,5 +81,6 @@ if __name__ == '__main__':
     
     for s in stocks:
         stinfo = StockInfo(s)
+        print stinfo.getTime()
         for item in stinfo.parseResults():
             print item
