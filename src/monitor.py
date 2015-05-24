@@ -1,29 +1,24 @@
 import threading, time
 
-from sina import StockInfo
+from stock import Stock
+import config
 
 debug = True
 debug = False
 
 # stocks to monitor
-'''
-Gong Shang Yin Hang: sh601398
-Zhong Yuan Hang Yun: sh600428
-
-For Test
-Qi Pi Lang: sz002029
-'''
-stocks = ['sh601398','sh600428','sz002029']
+stocks = []
+with open(config._path_stocks_txt) as f_stocks_txt:
+    for line in f_stocks_txt.readlines():
+        stocks.append(eval(line.split('#')[0]))
+print stocks
 
 def notification():
 
-    for s in stocks:
-        stinfo = StockInfo(s)
-        price_yesterday_close = stinfo.getPriceYesterdayClose()
-        price = stinfo.getPrice()
-        rate = price / price_yesterday_close - 1
-        print time.asctime()
-        print rate
+    for (symbol, ownership) in stocks:
+        stock = Stock(symbol, ownership)
+        print stock.calculate()
+        print 'system time:', time.asctime()
 
 # timer = threading.Timer(30, notification)
 # timer.start()
