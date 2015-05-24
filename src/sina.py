@@ -3,13 +3,14 @@ import urllib2, time
 CODEC = 'gb2312'
 
 debug = True
-# debug = False
+debug = False
 
 class StockInfo:
     
     def __init__(self, symbol):
         self.symbol = symbol
-        self.infolist = self.read().decode(CODEC).split(',')
+        self.buffer = self.read().decode(CODEC)
+        self.infolist = self.buffer.split(',')
         if (debug): print 'StockInfo: __init__', self.infolist
     
     def read(self):
