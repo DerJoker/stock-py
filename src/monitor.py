@@ -18,7 +18,7 @@ def notification():
     for (symbol, ownership) in stocks:
         stock = Stock(symbol, ownership)
         print stock.calculate()
-        print 'system time:', time.asctime()
+        print 'system time:', time.time()
 
 # timer = threading.Timer(30, notification)
 # timer.start()
