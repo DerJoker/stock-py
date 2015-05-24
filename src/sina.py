@@ -35,9 +35,18 @@ class StockInfo:
     def getPriceYesterdayClose(self):
         '''
         -> float
+        
+        price_yesterday_close can be 0 (because of suspending)
         '''
         if (debug): print self.read().decode(CODEC)
         return float(self.read().decode(CODEC).split(',')[1])
+    
+    def getPriceTodayOpen(self):
+        '''
+        -> float
+        '''
+        if (debug): print self.read().decode(CODEC)
+        return float(self.read().decode(CODEC).split(',')[2])
     
     def getPrice(self):
         '''
