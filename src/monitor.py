@@ -29,10 +29,10 @@ def notification():
         allowance = 0.01
         # c1 > c2: decrease
         if c1 - c2 > allowance and stock.ownership:
-            print time.time(), 'selling point', stock.getCompanyName()
+            print time.ctime(), 'selling point', stock.getCompanyName()
         # c1 < c2: increase
         if c2 - c1 > allowance and not stock.ownership:
-            print time.time(), 'buying point', stock.getCompanyName()
+            print time.ctime(), 'buying point', stock.getCompanyName()
 
 # timer = threading.Timer(30, notification)
 # timer.start()

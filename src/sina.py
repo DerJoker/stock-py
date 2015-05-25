@@ -61,8 +61,8 @@ class StockInfo:
         '''
         -> time
         '''
-#         return self.infolist[30] + ' ' + self.infolist[31]
-        return time.mktime(time.strptime(self.infolist[30] + ' ' + self.infolist[31], '%Y-%m-%d %H:%M:%S'))
+        return self.infolist[30] + ' ' + self.infolist[31]
+#        return time.mktime(time.strptime(self.infolist[30] + ' ' + self.infolist[31], '%Y-%m-%d %H:%M:%S'))
     
     def parseResults(self):
         company_name = self.infolist[0].split('"')[-1]
